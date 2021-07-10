@@ -6,7 +6,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 const Students = () => {
     const [studentCollection, setStudentCollection] = useState([])
     
-
+    //fetching stu8dents
     useEffect(()=>{
         fetch('http://localhost:5000/students')
         .then(res => res.json())
