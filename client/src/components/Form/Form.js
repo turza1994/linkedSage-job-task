@@ -14,7 +14,7 @@ const Form = () => {
 
     return (
         <div className="border-start border-bottom rounded px-2">
-            <h6 className="text-success fs-5 mt-4 mb-4">Create a student</h6>
+            <h6 className="text-success fs-5 mt-2 mb-4 border-bottom border-dark text-center pb-2">Create a student</h6>
             <form onSubmit={handleSubmit} >
                 <div className="mb-3 row ">
                     <label htmlFor="name" className="col-sm-2 col-form-label">Name: </label>
