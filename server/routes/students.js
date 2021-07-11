@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get('/', getStudents);
 router.post('/', createStudent);
-router.patch('/:id/:subjectId', addSubjectToStudent)
+router.patch('/:studentId/:subjectId', addSubjectToStudent)
 
 export default router;

@@ -27,7 +27,7 @@ export const createStudent = async (req, res) => {
 }
 
 export const addSubjectToStudent = async (req, res) => {
-    const studentId = req.params.id
+    const studentId = req.params.studentId
     const subjectId = req.params.subjectId
     const student = await StudentModel.findById(studentId)
     

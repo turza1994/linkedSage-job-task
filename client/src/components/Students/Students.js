@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios';
 
 const Students = () => {
     const [studentCollection, setStudentCollection] = useState([])
     const [subjectCollection, setSubjectCollection] = useState([])
+    const [choosenSubjectData, setChoosenSubjectData] = useState({})
 
-    console.log(subjectCollection);
+    console.log(choosenSubjectData);
     
     useEffect(()=>{
         fetch('http://localhost:5000/students')
@@ -20,6 +22,13 @@ const Students = () => {
         .then(res => res.json())
         .then(json => setSubjectCollection(json))
     },[])
+
+    const handleAddSubjectButton = ()=>{
+        const studentId = choosenSubjectData.studentId
+        const subjectId = choosenSubjectData.subjectId
+        subjectId !== null && axios.patch(`http://localhost:5000/students/${studentId}/${subjectId}`)
+        window.location.href="/"
+    }
 
     const handleDeleteButton = ()=>{
         
@@ -49,13 +58,26 @@ const Students = () => {
                                 <td>{cv.dob}</td>
                                 <td>{cv.subjects.map(sb => `${sb.name}, `)}</td>
                                 <td>
-                                    <select className="form-select-sm" aria-label="Default select example">
+                                    <select className="form-select-sm" aria-label="Default select example" 
+                                    onChange={
+                                        (e)=>setChoosenSubjectData(
+                                            {   studentId: cv._id, 
+                                                subjectId: e.target.childNodes[e.target.selectedIndex].getAttribute('subjectid')
+                                            })} 
+                                    >
                                         <option defaultValue>Select Subject</option>
                                         {
-                                            subjectCollection.map(sc => <option key={sc._id}>{sc.name}</option>)
+                                            subjectCollection.map(sc => 
+                                                <option 
+                                                    key={sc._id} 
+                                                    value={sc.name}
+                                                    subjectid={sc._id}
+                                                >
+                                                    {sc.name} 
+                                                </option>)
                                         }
                                     </select>
-                                    <button className="btn btn-success btn-sm mt-2 ms-3">Add Subject</button>
+                                    <button className="btn btn-success btn-sm mt-2 ms-3" onClick={handleAddSubjectButton}>Add Subject</button>
                                     {/* <button className="btn btn-success"><FontAwesomeIcon className="icon me-1 text-light" icon={faEdit} /></button>
                                     
                                     <button onClick={ () => handleDeleteButton(cv._id) } className="btn btn-danger"><FontAwesomeIcon className="icon me-1 text-light" icon={faTrash} /></button> */}
