@@ -2,7 +2,7 @@ import SubjectModel from "../models/SubjectModel.js";
 
 export const getSubjects = async (req, res) => { 
     try {
-        const allSubjects = await SubjectModel.find();
+        const allSubjects = await SubjectModel.find().populate("students");
                 
         res.status(200).json(allSubjects);
         console.log(allSubjects);

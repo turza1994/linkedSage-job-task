@@ -1,4 +1,5 @@
 import StudentModel from "../models/StudentModel.js";
+import SubjectModel from "../models/SubjectModel.js"
 
 export const getStudents = async (req, res) => { 
     try {
@@ -32,10 +33,18 @@ export const addSubjectToStudent = async (req, res) => {
     const student = await StudentModel.findById(studentId)
     
     if(!student.subjects.includes(subjectId)){
+
+        //adding subjectId into StudentCollection
         student.subjects.push(subjectId)
         const updatedStudent = await StudentModel.findByIdAndUpdate(studentId, student, { new: true })
-        res.json(updatedStudent)
-        console.log(updatedStudent);
+
+        //adding studentId into SubjectCollection
+        const subject = await SubjectModel.findById(subjectId)
+        subject.students.push(studentId)
+        const updatedSubject = await SubjectModel.findByIdAndUpdate(subjectId, subject, { new: true })
+
+        res.json({ ...updatedStudent, ...updatedSubject })
+        console.log({ ...updatedStudent, ...updatedSubject });
     }else{
         res.json({
             message: "subject already added"
